@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3>Referenced Countries</h3>
+   {% if object_list %}
+    <ul>
+      {% for a in object_list %}
+      <li><h4>
+        <a href="{{ a.get_absolute_url }}">{{ a.name }}</a><br>
+          {% for tweet in a.tweet_set.all %}
+        {{tweet.text}}
+    {% endfor %}
+       </h4></li>
+      {% endfor %}
+      {% endif %}
+    </ul>
+{% endblock %}

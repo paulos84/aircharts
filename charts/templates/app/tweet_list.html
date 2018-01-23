@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h3>@MaplecroftRisk Latest 50 Tweets</h3>
+   {% if object_list %}
+    <ul>
+      {% for a in object_list %}
+      <li>
+          {{ a.text }}
+          <a href="{{ a.url }}">{{ a.url }}</a>
+                  {{ a.created_at }}
+       </li>
+        <br>
+      {% endfor %}
+      {% endif %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Tweet Map</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  <link rel="stylesheet" type="text/css"href="{% static 'css/styles.css' %}">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyDCPTEH0vyT91giedWB3u-geHSVWtl3pm4'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable(
+        [['Country', 'Tweets'],
+        {% for a in object_list %}
+        ['{{ a.name }}', {{ a.tweet_set.all|length }}],
+        {% endfor %}]
+        );
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+  <div class="container-fluid">
+        <img src="{% static 'images/header.png' %}" style='width: 100%; object-fit: contain' />
+    <div class="row">
+      <div class="col-sm-2">
+      {% block sidebar %}
+      <br>
+      <ul class="sidebar-nav">
+          <li><a href="{% url 'tweet_list' %}">Latest 50 tweets</a></li>
+          <li><a href="{% url 'tweet_map' %}">Map of associated countries</a></li>
+        <li><a href="{% url 'countries' %}">List of associated countries</a></li>
+      </ul>
+      <br>
+     <img src="{% static 'images/logo.png' %}" style='margin-left: 2em; width: 50%; height: 50%' />
+     {% endblock %}
+      </div>
+      <div class="col-sm-10 ">
+    <div id="regions_div" style="width: 900px; height: 500px;"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
