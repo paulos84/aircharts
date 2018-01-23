@@ -1,11 +1,19 @@
 {% extends "base_generic.html" %}
 {% block content %}
 <h3>Referenced Countries</h3>
-<table>
-{% for row in object_list %}
-{% if row.region == 'South West' %}
-    {{ row.name }}
-{% endif %}
+
+{% regroup object_list by region as region_list %}
+
+<ul>
+{% for region in region_list %}
+    <li>{{ region.grouper }}
+    <ul>
+        {% for a in region.list %}
+          <li>{{ a.name }}</li>
+        {% endfor %}
+    </ul>
+    </li>
 {% endfor %}
-</table>
+</ul>
 {% endblock %}
+

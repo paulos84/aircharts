@@ -5,6 +5,7 @@ from .models import Site
 class SiteListView(generic.ListView):
     model = Site
 
+
 """
 class TweetMapView(generic.ListView):
     model = Country
