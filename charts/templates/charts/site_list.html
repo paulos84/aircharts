@@ -3,10 +3,13 @@
 <h3>Referenced Countries</h3>
    {% if object_list %}
     <ul>
-      {% for a in object_list %}
-        {% for a in object_list %}
+ {{regions}}
+        <br>
+        <br>
+        {% for a in object_list%}
             {{ a.region }}
         {% endfor %}
+
       {% endif %}
     </ul>
 {% endblock %}

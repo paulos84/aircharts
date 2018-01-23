@@ -10,7 +10,7 @@ urlpatterns = [
                   re_path(r'^$', RedirectView.as_view(url='/sites/', permanent=True)),
                   #re_path(r'^tweets/$', charts.views.TweetListView.as_view(), name='tweet_list'),
                   #re_path(r'^map$', charts.views.TweetMapView.as_view(), name='tweet_map'),
-                  #re_path(r'^countries/$', charts.views.CountryListView.as_view(), name='countries'),
+                  re_path(r'^sites/$', charts.views.SiteListView.as_view(), name='sites'),
                   #re_path(r'^countries/(?P<pk>\d+)$', charts.views.CountryDetailView.as_view(), name='country_detail'),
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

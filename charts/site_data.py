@@ -1,13 +1,19 @@
 def get_info(site):
     site_code = site_codes.get(site)
+    region = format_label(regions.get(site))
+    environ = format_label(environs.get(site))
     url = 'https://uk-air.defra.gov.uk/networks/site-info?site_id=' + site_codes.get(site)
     geo = site_geo.get(site)
     map_url = 'https://maps.google.co.uk/?q=' + ', '.join(geo).replace(' ', '')
     latitude = geo[0]
     longitude = geo[1]
-    return {'name': site, 'code': site_code, 'url': url, 'map_url': map_url,
+    return {'name': site, 'code': site_code, 'region': region, 'environment': environ, 'url': url, 'map_url': map_url,
             'latitude': latitude, 'longitude': longitude}
 
+def format_label(hyphenated):
+    split_name = hyphenated.replace('-', ' ').split()
+    formatted = ' '.join([a.capitalize() for a in split_name])
+    return formatted
 
 site_geo = {
     'Aberdeen': ['57.157360', '-2.094278'],
