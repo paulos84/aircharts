@@ -4,7 +4,7 @@ from .models import Site
 
 class SiteListView(generic.ListView):
     model = Site
-
+    queryset = Site.objects.order_by('region')
 
 """
 class TweetMapView(generic.ListView):

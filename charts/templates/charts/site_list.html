@@ -2,18 +2,17 @@
 {% block content %}
 <h3>Referenced Countries</h3>
 
-{% regroup object_list by region as region_list %}
+{% regroup object_list by region as regions_list %}
 
 <ul>
-{% for region in region_list %}
+{% for region in regions_list %}
     <li>{{ region.grouper }}
     <ul>
-        {% for a in region.list %}
-          <li>{{ a.name }}</li>
+        {% for item in region.list %}
+          <li>{{ item.name }}</li>
         {% endfor %}
     </ul>
     </li>
 {% endfor %}
 </ul>
 {% endblock %}
-
