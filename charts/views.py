@@ -4,13 +4,6 @@ from .models import Site
 
 class SiteListView(generic.ListView):
     model = Site
-    #regions = set([a.region for a in Site.objects.all()])
-
-    def get_context_data(self, **kwargs):
-        context = super(SiteListView, self).get_context_data(**kwargs) # get the default context data
-        context['regions'] = set([a.region for a in Site.objects.all()])
-        return context
-
 
 """
 class TweetMapView(generic.ListView):
