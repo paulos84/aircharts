@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<h3>Referenced Countries</h3>
+
+<h3  style="margin-left: 8.18em;">AURN Monitoring Sites</h3>
 
  <div class="col-sm-5 ">
 {% regroup object_list by region as regions_list %}
@@ -22,6 +23,7 @@
  <div class="col-sm-5 ">
 
 <ul>
+{% regroup object_list2 by region as regions_list %}
 {% for region in regions_list %}
     <li>{{ region.grouper }}
     <ul>

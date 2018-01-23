@@ -7,21 +7,12 @@ class SiteListView(generic.ListView):
     #queryset = Site.objects.order_by('region')
 
     def get_context_data(self, **kwargs):
-        """
-        Get the context for this view.
-        """
-        regions1 = Site.objects.values_list('region')[:8]
-        regions2 = Site.objects.values_list('region')[8:]
-        queryset1 = Site.objects.filter(region__in=regions1).order_by('region')
-        queryset2 = Site.objects.filter(region__in=regions2).order_by('region')
-
-        context = {
-            'paginator': None,
-            'page_obj': None,
-            'is_paginated': False,
-            'object_list': queryset1,
-            'object_list3': queryset2
-        }
+        region_set = Site.objects.values_list('region').order_by('region').distinct()
+        regions = [a[0] for a in region_set]
+        queryset1 = Site.objects.filter(region__in=regions[:11]).order_by('region')
+        queryset2 = Site.objects.filter(region__in=regions[11:]).order_by('region')
+        context = {'object_list': queryset1,
+                   'object_list2': queryset2}
         return context
 
 """
