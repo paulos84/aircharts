@@ -9,10 +9,10 @@ class ViewsTest(TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse('countries'))
+        resp = self.client.get(reverse('sites'))
         self.assertEqual(resp.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('tweet_list'))
+        resp = self.client.get(reverse('sites'))
         self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'app/tweet_list.html')
+        self.assertTemplateUsed(resp, 'charts/site_list.html')

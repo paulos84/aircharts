@@ -1,4 +1,5 @@
 from django.views import generic
+from django.urls import reverse
 from .models import Site
 
 
@@ -14,6 +15,13 @@ class SiteListView(generic.ListView):
         context = {'object_list': queryset1,
                    'object_list2': queryset2}
         return context
+
+    def get_absolute_url(self):
+        return reverse('site_detail', args=[str(self.id)])
+
+
+class SiteDetailView(generic.DetailView):
+    model = Site
 
 """
 class TweetMapView(generic.ListView):
