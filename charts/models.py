@@ -1,5 +1,6 @@
 from django.db import models
-from .site_data import site_list, get_info, regions, format_label
+from django.urls import reverse
+from .site_data import site_list, get_info
 
 
 class Site(models.Model):
@@ -11,6 +12,7 @@ class Site(models.Model):
     map_url = models.URLField(max_length=1000, verbose_name='Google maps url')
     latitude = models.CharField(max_length=50)
     longitude = models.CharField(max_length=50)
+    slug = models.CharField(unique=True, max_length=10)
 
     class Meta:
         ordering = ('name',)
@@ -18,8 +20,11 @@ class Site(models.Model):
     def __repr__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('site_detail', kwargs={'slug': self.slug})
+
     @staticmethod
     def populate():
         """ create and save objects using the data in data.site_info.py """
         for site in site_list:
-            Site.objects.create(**get_info(site))
+            Site.objects.create(**get_info(site), slug=get_info(site)['code'])

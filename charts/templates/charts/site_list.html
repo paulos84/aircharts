@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 {% block content %}
 
-<h3  style="margin-left: 8.18em;">AURN Monitoring Sites</h3>
+<h3  style="margin-left: 8.18em;">AURN Monitoring Site Charts</h3>
 
  <div class="col-sm-5 ">
 {% regroup object_list by region as regions_list %}
@@ -11,7 +11,7 @@
     <li>{{ region.grouper }}
     <ul>
         {% for item in region.list %}
-          <li>{{ item.name }}</li>
+          <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
         {% endfor %}
     </ul>
     </li>
@@ -28,7 +28,7 @@
     <li>{{ region.grouper }}
     <ul>
         {% for item in region.list %}
-          <li>{{ item.name }}</li>
+          <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
         {% endfor %}
     </ul>
     </li>
