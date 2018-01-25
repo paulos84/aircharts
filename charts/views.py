@@ -31,20 +31,17 @@ def get_data(site_code, days=5):
 class SiteDetailView(generic.DetailView):
     model = Site
 
-    def get_data(self, site_code, days=5):
-        data = requests.get('http://aurn-api.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
-        no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data]
-        pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data]
-        pm10 = [float(i['pm10']) if i['pm10'].isdigit() else '' for i in data]
-        times = [i['time'].split(' ')[1] for i in data]
-        return dict(no2=no2, pm25=pm25, pm10=pm10, times=times)
-
     def get_context_data(self, **kwargs):
         context = super(SiteDetailView, self).get_context_data(**kwargs) # get the default context data
-        context['voted_links'] = Link.objects.filter(votes__voter=self.request.user) # add extra field to the context
         chart_data = get_data(self.kwargs['slug'])
         context['chartID'] = 'chart_ID'
         context['chart'] = {"renderTo": 'chart_ID', "type": 'line', "height": 550, "width": 800}
+        context['series'] = [{"name": 'PM10', "data": chart_data['pm10']},
+                             {"name": 'PM2.5', "data": chart_data['pm25']},
+                             {"name": 'Nitrogen Dioxide', "data": chart_data['no2']}]
+        context['title'] = {"text": 'Recent air pollution levels'}
+        context['xAxis'] = {"categories": chart_data['times']}
+        context['yAxis'] = {"title": {"text": 'Concentration (ug/m3)'}}
         return context
 
 
