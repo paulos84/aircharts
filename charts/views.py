@@ -1,5 +1,7 @@
-from django.views import generic
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.views import generic
+import requests
 from .models import Site
 
 
@@ -20,8 +22,28 @@ class SiteListView(generic.ListView):
 class SiteDetailView(generic.DetailView):
     model = Site
 
+    def chart_data(site_code, days=5):
+        data = requests.get('http://aurn-api.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
+        no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data]
+        pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data]
+        pm10 = [float(i['pm10']) if i['pm10'].isdigit() else '' for i in data]
+        times = [i['time'].split(' ')[1] for i in data]
+        return dict(no2=no2, pm25=pm25, pm10=pm10, times=times)
+
+    def get_context_data(self, **kwargs):
+        context = super(SiteDetailView, self).get_context_data(**kwargs) # get the default context data
+        context['voted_links'] = Link.objects.filter(votes__voter=self.request.user) # add extra field to the context
+        return context
+
 
 """
+
+def SiteDetailView(request, album_id):
+    #album_id variable defined in the musics/urls.py urlpattern
+    #where you use parametized url mapping (specify in urls.py - you must pass this in the view)
+    album = get_object_or_404(Album, pk=album_id)
+    return render(request, 'music/detail.html', {'album':album})
+
 class TweetMapView(generic.ListView):
     model = Country
     template_name = 'app/tweet_map.html'
