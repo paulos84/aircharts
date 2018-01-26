@@ -1,5 +1,3 @@
-{% extends "base_generic.html" %}
-{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +7,14 @@
           type="text/javascript"></script>
 </head>
 <body>
-  <div id="map" style="width: 500px; height: 400px;"></div>
+  <div id="map" style="width: 600px; height: 480px;"></div>
 
   <script type="text/javascript">
-    var locations = {{locations}};
+    var locations = {{ locations|safe }};
 
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 6,
-      center: new google.maps.LatLng(-33.92, 151.25),
+      zoom: 5,
+      center: new google.maps.LatLng(53.765590, -2.680353),
       mapTypeId: google.maps.MapTypeId.HYBRID
     });
 
@@ -40,4 +38,3 @@
   </script>
 </body>
 </html>
-{% endblock %}

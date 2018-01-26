@@ -51,7 +51,7 @@ class UKMapView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(UKMapView, self).get_context_data(**kwargs)
         site_geo2 = {k: [float(v[0]), float(v[1])] for k, v in site_geo.items()}
-        context['locations'] = [[k, v] for k, v in site_geo2.items()]
+        context['locations'] = [[k,*v] for k,v in site_geo2.items()]
         return context
 
 

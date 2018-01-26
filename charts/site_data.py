@@ -90,7 +90,7 @@ site_geo = {
     'Manchester Piccadilly': ['53.481520', '-2.237881'],
     'Manchester Sharston': ['53.371306', '-2.239218'],
     'Middlesbrough': ['54.569297', '-1.220874'],
-    'Narberth': ['51.4757', '4.4437'],
+    'Narberth': ['51.4757', '-4.4437'],
     'Newcastle Centre': ['54.978250', '-1.610528'],
     'Newport': ['51.601203', '-2.977281'],
     'Norwich Lakenfields': ['52.614193', '1.301976'],
