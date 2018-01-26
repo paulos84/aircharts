@@ -1,7 +1,7 @@
 from django.views import generic
 import requests
 from .models import Site
-from .site_data import site_codes
+from .site_data import site_codes, site_geo
 
 
 class SiteListView(generic.ListView):
@@ -43,3 +43,17 @@ class SiteDetailView(generic.DetailView):
         context['xAxis'] = {"categories": chart_data['times']}
         context['yAxis'] = {"title": {"text": 'Concentration (ug/m3)'}}
         return context
+
+class UKMapView(generic.ListView):
+    model = Site
+    template_name = 'charts/uk_map.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UKMapView, self).get_context_data(**kwargs)
+        site_geo2 = {k: [float(v[0]), float(v[1])] for k, v in site_geo.items()}
+        context['locations'] = [[k, v] for k, v in site_geo2.items()]
+        return context
+
+
+# on detail page replace sidebar uk image with ... and make sidebar col size 3 or 4
+# same javascript as for the above but use just the single site
