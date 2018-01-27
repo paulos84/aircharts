@@ -29,13 +29,13 @@ h5   {margin-left: 27px}
           <li><h4><a href="{% url 'map' %}">All Sites Map</a></h4></li>
         <li><h4><a href="https://www.air-aware.com">Home</a></h4></li>
       </ul>
-          <div id="map" style="width: 120px; height: 96px; margin-left: 27px"></div>
+          <div id="map" style="width: 240px; height: 192px; margin-left: 27px"></div>
         <script type="text/javascript">
-        var locations = [['df', 53.765590, -2.680353]];
+        var locations = {{ location|safe }};
 
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
-          center: new google.maps.LatLng({{ lat }}, {{ long }}),
+          zoom: 6,
+          center: new google.maps.LatLng({{ lat|safe  }}, {{ long|safe  }}),
           mapTypeId: google.maps.MapTypeId.HYBRID
         });
 

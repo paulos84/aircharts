@@ -28,6 +28,7 @@ def get_data(site_code, days=4):
 
 site_geo2 = {k: [float(v[0]), float(v[1])] for k, v in site_geo.items()}
 
+
 class SiteDetailView(generic.DetailView):
     model = Site
 
@@ -45,9 +46,10 @@ class SiteDetailView(generic.DetailView):
         context['xAxis'] = {"categories": chart_data['times']}
         context['yAxis'] = {"title": {"text": 'Concentration (ug/m3)'}}
         context['location'] = [[site_name, *site_geo2.get(site_name)]]
-        context['lat'] = site_geo2.get('Aberdeen')[0]
-        context['long'] = site_geo2.get('Aberdeen')[1]
+        context['lat'] = site_geo2.get(site_name)[0]
+        context['long'] = site_geo2.get(site_name)[1]
         return context
+
 
 class UKMapView(generic.ListView):
     model = Site
@@ -57,7 +59,3 @@ class UKMapView(generic.ListView):
         context = super(UKMapView, self).get_context_data(**kwargs)
         context['locations'] = [[k,*v] for k,v in site_geo2.items()]
         return context
-
-
-# on detail page replace sidebar uk image with ... and make sidebar col size 3 or 4
-# same javascript as for the above but use just the single site
