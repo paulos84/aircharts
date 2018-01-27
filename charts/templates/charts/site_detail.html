@@ -29,40 +29,38 @@ h5   {margin-left: 27px}
           <li><h4><a href="{% url 'map' %}">All Sites Map</a></h4></li>
         <li><h4><a href="https://www.air-aware.com">Home</a></h4></li>
       </ul>
-          <div id="map" style="width: 60px; height: 48px;"></div>
+          <div id="map" style="width: 120px; height: 96px; margin-left: 27px"></div>
         <script type="text/javascript">
-    var locations = [['df', 53.765590, -2.680353]];
+        var locations = [['df', 53.765590, -2.680353]];
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 5,
-      center: new google.maps.LatLng(53.765590, -2.680353),
-      mapTypeId: google.maps.MapTypeId.HYBRID
-    });
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5,
+          center: new google.maps.LatLng({{ lat }}, {{ long }}),
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        });
 
-    var infowindow = new google.maps.InfoWindow();
+        var infowindow = new google.maps.InfoWindow();
 
-    var marker, i;
+        var marker, i;
 
-    for (i = 0; i < locations.length; i++) {
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        map: map
-      });
+        for (i = 0; i < locations.length; i++) {
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+          });
 
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(locations[i][0]);
-          infowindow.open(map, marker);
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
         }
-      })(marker, i));
-    }
-  </script>
-
-     <img src="{% static 'images/map.png' %}" style='margin-left: 2em; width: 68%; height: 68%' />
-          <br>
-          <h5>Environment type: {{ site.environment}}</h5>
-  <h5 >Region: {{ site.region }}</h5>
-  <h5>DEFRA website link: <a href="{{ site.url }}">{{ site.url }}</a></h5>
+      </script>
+    <br>
+    <h5>Environment type: {{ site.environment}}</h5>
+    <h5 >Region: {{ site.region }}</h5>
+    <h5>DEFRA website link: <a href="{{ site.url }}">{{ site.url }}</a></h5>
       </div>
       <div class="col-sm-9 ">
         <div id={{ chartID|safe }} class="chart" style="height: 75px; width: 375px;"></div>

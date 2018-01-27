@@ -32,8 +32,6 @@ class SiteDetailView(generic.DetailView):
     model = Site
 
     def get_context_data(self, **kwargs):
-        site_names = {b: a for a, b in site_codes.items()}
-        site_name = site_names.get(self.kwargs['slug'])
         context = super(SiteDetailView, self).get_context_data(**kwargs) # get the default context data
         chart_data = get_data(self.kwargs['slug'])
         context['chartID'] = 'chart_ID'
@@ -41,11 +39,14 @@ class SiteDetailView(generic.DetailView):
         context['series'] = [{"name": 'PM10', "data": chart_data['pm10']},
                              {"name": 'PM2.5', "data": chart_data['pm25']},
                              {"name": 'Nitrogen Dioxide', "data": chart_data['no2']}]
+        site_names = {b: a for a, b in site_codes.items()}
+        site_name = site_names.get(self.kwargs['slug'])
         context['title'] = {"text": 'Recent air pollution levels for {}'.format(site_name)}
         context['xAxis'] = {"categories": chart_data['times']}
         context['yAxis'] = {"title": {"text": 'Concentration (ug/m3)'}}
         context['location'] = [[site_name, *site_geo2.get(site_name)]]
-        context['coordinates'] = ''
+        context['lat'] = site_geo2.get('Aberdeen')[0]
+        context['long'] = site_geo2.get('Aberdeen')[1]
         return context
 
 class UKMapView(generic.ListView):
