@@ -27,4 +27,5 @@ class Site(models.Model):
     def populate():
         """ create and save objects using the data in data.site_info.py """
         for site in site_list:
-            Site.objects.create(**get_info(site), slug=get_info(site)['code'])
+            site_entry = Site.objects.create(**get_info(site), slug=get_info(site)['code'])
+            site_entry.save()
