@@ -8,7 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Add additional CSS in static file -->
-  {% load static %}link
+  {% load static %}
   <link rel="stylesheet" type="text/css"href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -23,9 +23,9 @@ h3   {color: #708090;}
       {% block sidebar %}
       <br>
       <ul class="sidebar-nav">
-          <li><a href="{% url 'sites' %}">Latest 50 tweets</a></li>
-          <li><a href="{% url 'sites' %}">Map of associated countries</a></li>
-        <li><a href="{% url 'sites' %}">List of associated countries</a></li>
+          <li><h4><a href="{% url 'sites' %}">All Site Locations</a></h4></li>
+          <li><h4><a href="{% url 'map' %}">All Sites Map</a></h4></li>
+        <li><h4><a href="https://www.air-aware.com">Home</a></h4></li>
       </ul>
       <br>
      <img src="{% static 'images/map.png' %}" style='margin-left: 2em; width: 70%; height: 70%' />

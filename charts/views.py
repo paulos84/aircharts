@@ -26,11 +26,14 @@ def get_data(site_code, days=4):
     times = [i.replace(i, '00:00') if i == '24:00' else i for i in hours]
     return dict(no2=no2[::-1], pm25=pm25[::-1], pm10=pm10[::-1], times=times[::-1])
 
+site_geo2 = {k: [float(v[0]), float(v[1])] for k, v in site_geo.items()}
 
 class SiteDetailView(generic.DetailView):
     model = Site
 
     def get_context_data(self, **kwargs):
+        site_names = {b: a for a, b in site_codes.items()}
+        site_name = site_names.get(self.kwargs['slug'])
         context = super(SiteDetailView, self).get_context_data(**kwargs) # get the default context data
         chart_data = get_data(self.kwargs['slug'])
         context['chartID'] = 'chart_ID'
@@ -38,10 +41,11 @@ class SiteDetailView(generic.DetailView):
         context['series'] = [{"name": 'PM10', "data": chart_data['pm10']},
                              {"name": 'PM2.5', "data": chart_data['pm25']},
                              {"name": 'Nitrogen Dioxide', "data": chart_data['no2']}]
-        site_names = {b:a for a,b in site_codes.items()}
-        context['title'] = {"text": 'Recent air pollution levels for {}'.format(site_names.get(self.kwargs['slug']))}
+        context['title'] = {"text": 'Recent air pollution levels for {}'.format(site_name)}
         context['xAxis'] = {"categories": chart_data['times']}
         context['yAxis'] = {"title": {"text": 'Concentration (ug/m3)'}}
+        context['location'] = [[site_name, *site_geo2.get(site_name)]]
+        context['coordinates'] = ''
         return context
 
 class UKMapView(generic.ListView):
@@ -50,7 +54,6 @@ class UKMapView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(UKMapView, self).get_context_data(**kwargs)
-        site_geo2 = {k: [float(v[0]), float(v[1])] for k, v in site_geo.items()}
         context['locations'] = [[k,*v] for k,v in site_geo2.items()]
         return context
 
