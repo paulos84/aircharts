@@ -1,7 +1,19 @@
 {% extends "base_generic.html" %}
 {% block content %}
  <div class="col-sm-5 ">
+{% regroup object_list_lon by region as regions_list %}
+<ul>
+{% for region in regions_list %}
+    <li>{{ region.grouper }}
+    <ul>
+        {% for item in region.list %}
+          <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
+        {% endfor %}
+    </ul>
+    </li>
+{% endfor %}
 {% regroup object_list by region as regions_list %}
+</ul>
 <ul>
 {% for region in regions_list %}
     <li>{{ region.grouper }}
