@@ -8,7 +8,7 @@ def get_info(site):
     latitude = geo[0]
     longitude = geo[1]
     return {'name': site, 'code': site_code, 'region': region, 'environment': environ, 'url': url, 'map_url': map_url,
-            'latitude': latitude, 'longitude': longitude}
+            'latitude': latitude, 'longitude': longitude, 'slug': site_code}
 
 def format_label(hyphenated):
     split_name = hyphenated.replace('-', ' ').split()
