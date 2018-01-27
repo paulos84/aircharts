@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from .site_data import site_list, get_info
 
 
 class Site(models.Model):
@@ -22,10 +21,3 @@ class Site(models.Model):
 
     def get_absolute_url(self):
         return reverse('site_detail', kwargs={'slug': self.slug})
-
-    @staticmethod
-    def populate():
-        """ create and save objects using the data in data.site_info.py """
-        for site in site_list:
-            site_entry = Site.objects.create(**get_info(site))
-            site_entry.save()
