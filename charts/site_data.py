@@ -1,5 +1,6 @@
 from charts.models import Site
 
+
 def get_info(site):
     site_code = site_codes.get(site)
     region = format_label(regions.get(site))
@@ -11,6 +12,7 @@ def get_info(site):
     longitude = geo[1]
     return {'name': site, 'code': site_code, 'region': region, 'environment': environ, 'url': url, 'map_url': map_url,
             'latitude': latitude, 'longitude': longitude, 'slug': site_code}
+
 
 def format_label(hyphenated):
     split_name = hyphenated.replace('-', ' ').split()

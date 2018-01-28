@@ -44,7 +44,7 @@ class SiteModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        #Set up non-modified objects used by all test methods
+        # Set up non-modified objects used by all test methods
         Site.objects.create(code='ABD', environment='Urban Background', latitude='57.157360', longitude='-2.094278',
                             map_url='https://maps.google.co.uk/?q=57.157360,-2.094278', name='Aberdeen',
                             region='North East Scotland', slug='ABD',
