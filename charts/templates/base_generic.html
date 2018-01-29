@@ -20,14 +20,6 @@ body {background-color: #FFFAFA;}
     <div class="row">
       <div class="col-sm-2">
       {% block sidebar %}
-      <br>
-      <ul class="sidebar-nav">
-          <li><h4><a href="{% url 'sites' %}">All Site Locations</a></h4></li>
-          <li><h4><a href="{% url 'map' %}">All Sites Map</a></h4></li>
-        <li><h4><a href="https://www.air-aware.com">Home</a></h4></li>
-      </ul>
-      <br>
-     <img src="{% static 'images/map.png' %}" style='margin-left: 2em; width: 70%; height: 70%' />
      {% endblock %}
       </div>
       <div class="col-sm-10 ">

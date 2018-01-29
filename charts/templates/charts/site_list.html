@@ -1,4 +1,25 @@
 {% extends "base_generic.html" %}
+{% load static %}
+{% block sidebar %}
+<style>
+h5   {margin-left: 27px}
+</style>
+      <br>
+      <ul class="sidebar-nav">
+          <li><h4><a href="{% url 'sites' %}">All Site Locations</a></h4></li>
+          <li><h4><a href="{% url 'map' %}">All Sites Map</a></h4></li>
+        <li><h4><a href="https://www.air-aware.com">Home</a></h4></li>
+      </ul>
+      <br>
+     <img src="{% static 'images/map.png' %}" style='margin-left: 2em; width: 70%; height: 70%' />
+ <br>
+    <br>
+      <ui><h5><a href="{% url 'site_detail' 'MY1' %}">Marylebone Road</a></h5></ui>
+      <ui><h5><a href="{% url 'site_detail' 'KC1' %}">North Kensington</a></h5></ui>
+      <ui><h5><a href="{% url 'site_detail' 'CHBO' %}">Chilbolton Observatory</a></h5></ui>
+      <ui><h5><a href="{% url 'site_detail' 'PT4' %}">Port Talbot</a></h5></ui>
+      <ui><h5><a href="{% url 'site_detail' 'LEED' %}">Leeds Centre</a></h5></ui>
+{% endblock %}
 {% block content %}
  <div class="col-sm-5 ">
 {% regroup object_list_lon by region as regions_list %}
