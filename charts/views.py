@@ -1,7 +1,20 @@
 from django.views import generic
 import requests
+import pytz
+from datetime import datetime
 from .models import Site
-from .site_data import site_codes, site_geo2, locations
+from .site_data import site_codes, site_names, site_geo2, locations
+
+local_tz = pytz.timezone('Europe/London')
+
+
+def latest_hour_max():
+    data = requests.get('http://ukair.pauljd.me/current-data/').json()
+    p_max = max(float(a['pm10']) if a['pm10'].isdigit() else 0 for a in data)
+    p_codes = [i['site_code'] for i in data if i['pm10'] == str(round(p_max))]
+    n_max = max(float(a['no2']) if a['no2'].isdigit() else 0 for a in data)
+    n_codes = [i['site_code'] for i in data if i['no2'] == str(round(n_max))]
+    return {'pm10_max': p_max, 'pm10_sites': p_codes, 'no2_max': n_max, 'no2_sites': n_codes}
 
 
 class SiteListView(generic.ListView):
@@ -15,18 +28,20 @@ class SiteListView(generic.ListView):
         queryset2 = Site.objects.filter(region__in=regions[11:]).order_by('region')
         context = {'object_list_lon': qs_london,
                    'object_list': queryset1,
-                   'object_list2': queryset2}
+                   'object_list2': queryset2,
+                   'date': datetime.now(local_tz),
+                   'site_names': site_names,
+                   **latest_hour_max()}
         return context
 
 
-def get_data(site_code, days=4):
-    data = requests.get('http://aurn-api.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
+def get_data(site_code, days=2):
+    data = requests.get('http://ukair.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
     no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data]
     pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data]
     pm10 = [float(i['pm10']) if i['pm10'].isdigit() else '' for i in data]
-    hours = [i['time'].split(' ')[1] for i in data]
-    times = [i.replace(i, '00:00') if i == '24:00' else i for i in hours]
-    return dict(no2=no2[::-1], pm25=pm25[::-1], pm10=pm10[::-1], times=times[::-1])
+    hours = [i['time'][11:16] for i in data]
+    return dict(no2=no2[::-1], pm25=pm25[::-1], pm10=pm10[::-1], times=hours[::-1])
 
 
 class SiteDetailView(generic.DetailView):
@@ -48,6 +63,7 @@ class SiteDetailView(generic.DetailView):
         context['location'] = [[site_name, site_geo2.get(site_name)[0], site_geo2.get(site_name)[1]]]
         context['lat'] = site_geo2.get(site_name)[0]
         context['long'] = site_geo2.get(site_name)[1]
+        context['date'] = datetime.now(local_tz)
         return context
 
 
