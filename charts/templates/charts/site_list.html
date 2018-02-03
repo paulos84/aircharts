@@ -21,6 +21,11 @@ h5   {margin-left: 27px}
         {% for site in pm10_sites %}
       <ui><h5><a href="{% url 'site_detail' site %}">{{ site_names|get_item:site }}</a></h5></ui>
         {% endfor %}
+      <ui><h5>Current max NO2:</a></h5></ui>
+      <ui><h5>{{ no2_max }} ug/m3</h5></ui>
+        {% for site in no2_sites %}
+      <ui><h5><a href="{% url 'site_detail' site %}">{{ site_names|get_item:site }}</a></h5></ui>
+        {% endfor %}
 {% endblock %}
 {% block content %}
  <div class="col-sm-5 ">

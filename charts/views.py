@@ -35,7 +35,7 @@ class SiteListView(generic.ListView):
         return context
 
 
-def get_data(site_code, days=4):
+def get_data(site_code, days=2):
     data = requests.get('http://ukair.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
     no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data]
     pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data]
