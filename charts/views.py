@@ -1,7 +1,10 @@
 from django.views import generic
 import requests
+import pytz
+from datetime import datetime
 from .models import Site
 from .site_data import site_codes, site_geo2, locations
+
 
 
 class SiteListView(generic.ListView):
@@ -20,17 +23,17 @@ class SiteListView(generic.ListView):
 
 
 def get_data(site_code, days=4):
-    data = requests.get('http://aurn-api.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
+    data = requests.get('http://ukair.pauljd.me//site-data/{}/{}/'.format(site_code, days)).json()
     no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data]
     pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data]
     pm10 = [float(i['pm10']) if i['pm10'].isdigit() else '' for i in data]
-    hours = [i['time'].split(' ')[1] for i in data]
-    times = [i.replace(i, '00:00') if i == '24:00' else i for i in hours]
-    return dict(no2=no2[::-1], pm25=pm25[::-1], pm10=pm10[::-1], times=times[::-1])
+    hours = [i['time'][11:16] for i in data]
+    return dict(no2=no2[::-1], pm25=pm25[::-1], pm10=pm10[::-1], times=hours[::-1])
 
 
 class SiteDetailView(generic.DetailView):
     model = Site
+    local_tz = pytz.timezone('Europe/London')
 
     def get_context_data(self, **kwargs):
         context = super(SiteDetailView, self).get_context_data(**kwargs)  # get the default context data
@@ -48,6 +51,7 @@ class SiteDetailView(generic.DetailView):
         context['location'] = [[site_name, site_geo2.get(site_name)[0], site_geo2.get(site_name)[1]]]
         context['lat'] = site_geo2.get(site_name)[0]
         context['long'] = site_geo2.get(site_name)[1]
+        context['date'] = datetime.now(self.local_tz)
         return context
 
 
