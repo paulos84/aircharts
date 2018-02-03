@@ -3,16 +3,18 @@ import requests
 import pytz
 from datetime import datetime
 from .models import Site
-from .site_data import site_codes, site_geo2, locations
+from .site_data import site_codes, site_names, site_geo2, locations
+
+local_tz = pytz.timezone('Europe/London')
 
 
 def latest_hour_max():
     data = requests.get('http://ukair.pauljd.me/current-data/').json()
     p_max = max(float(a['pm10']) if a['pm10'].isdigit() else 0 for a in data)
-    p_site = [i['site_code'] for i in data if i['pm10'] == str(round(p_max))]
+    p_codes = [i['site_code'] for i in data if i['pm10'] == str(round(p_max))]
     n_max = max(float(a['no2']) if a['no2'].isdigit() else 0 for a in data)
-    n_site = [i['site_code'] for i in data if i['no2'] == str(round(n_max))]
-    return {'pm10_max': p_max, 'pm10_site': p_site, 'no2_max': n_max, 'no2_site': n_site}
+    n_codes = [i['site_code'] for i in data if i['no2'] == str(round(n_max))]
+    return {'pm10_max': p_max, 'pm10_sites': p_codes, 'no2_max': n_max, 'no2_sites': n_codes}
 
 
 class SiteListView(generic.ListView):
@@ -27,6 +29,8 @@ class SiteListView(generic.ListView):
         context = {'object_list_lon': qs_london,
                    'object_list': queryset1,
                    'object_list2': queryset2,
+                   'date': datetime.now(local_tz),
+                   'site_names': site_names,
                    **latest_hour_max()}
         return context
 
@@ -42,7 +46,6 @@ def get_data(site_code, days=4):
 
 class SiteDetailView(generic.DetailView):
     model = Site
-    local_tz = pytz.timezone('Europe/London')
 
     def get_context_data(self, **kwargs):
         context = super(SiteDetailView, self).get_context_data(**kwargs)  # get the default context data
@@ -60,7 +63,7 @@ class SiteDetailView(generic.DetailView):
         context['location'] = [[site_name, site_geo2.get(site_name)[0], site_geo2.get(site_name)[1]]]
         context['lat'] = site_geo2.get(site_name)[0]
         context['long'] = site_geo2.get(site_name)[1]
-        context['date'] = datetime.now(self.local_tz)
+        context['date'] = datetime.now(local_tz)
         return context
 
 

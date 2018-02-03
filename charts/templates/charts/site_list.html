@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load template_filters %}
 {% block sidebar %}
 <style>
 h5   {margin-left: 27px}
@@ -14,17 +15,12 @@ h5   {margin-left: 27px}
      <img src="{% static 'images/map.png' %}" style='margin-left: 2em; width: 70%; height: 70%' />
  <br>
     <br>
-      <ui><h5>{{ date|date:"r" }}</h5></ui>
+      <ui><h5>{{ date|date:"jS M P" }}</h5></ui>
       <ui><h5>Current max PM10:</a></h5></ui>
       <ui><h5>{{ pm10_max }} ug/m3</h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'KC1' %}">North Kensington</a></h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'MY1' %}">Marylebone Road</a></h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'KC1' %}">North Kensington</a></h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'MY1' %}">Marylebone Road</a></h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'KC1' %}">North Kensington</a></h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'CHBO' %}">Chilbolton Observatory</a></h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'PT4' %}">Port Talbot</a></h5></ui>
-      <ui><h5><a href="{% url 'site_detail' 'LEED' %}">Leeds Centre</a></h5></ui>
+        {% for site in pm10_sites %}
+      <ui><h5><a href="{% url 'site_detail' site %}">{{ site_names|get_item:site }}</a></h5></ui>
+        {% endfor %}
 {% endblock %}
 {% block content %}
  <div class="col-sm-5 ">
