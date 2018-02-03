@@ -6,6 +6,14 @@ from .models import Site
 from .site_data import site_codes, site_geo2, locations
 
 
+def latest_hour_max():
+    data = requests.get('http://ukair.pauljd.me/current-data/').json()
+    p_max = max(float(a['pm10']) if a['pm10'].isdigit() else 0 for a in data)
+    p_site = [i['site_code'] for i in data if i['pm10'] == str(round(p_max))]
+    n_max = max(float(a['no2']) if a['no2'].isdigit() else 0 for a in data)
+    n_site = [i['site_code'] for i in data if i['no2'] == str(round(n_max))]
+    return {'pm10_max': p_max, 'pm10_site': p_site, 'no2_max': n_max, 'no2_site': n_site}
+
 
 class SiteListView(generic.ListView):
     model = Site
@@ -18,12 +26,13 @@ class SiteListView(generic.ListView):
         queryset2 = Site.objects.filter(region__in=regions[11:]).order_by('region')
         context = {'object_list_lon': qs_london,
                    'object_list': queryset1,
-                   'object_list2': queryset2}
+                   'object_list2': queryset2,
+                   **latest_hour_max()}
         return context
 
 
 def get_data(site_code, days=4):
-    data = requests.get('http://ukair.pauljd.me//site-data/{}/{}/'.format(site_code, days)).json()
+    data = requests.get('http://ukair.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
     no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data]
     pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data]
     pm10 = [float(i['pm10']) if i['pm10'].isdigit() else '' for i in data]
