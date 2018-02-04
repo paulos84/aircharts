@@ -2,9 +2,7 @@
 {% load static %}
 {% load template_filters %}
 {% block sidebar %}
-<style>
-h5   {margin-left: 27px}
-</style>
+<span style="margin-left: 27px">
       <br>
       <ul class="sidebar-nav">
           <li><h5><a href="{% url 'sites' %}">All Site Locations</a></h5></li>
@@ -12,20 +10,42 @@ h5   {margin-left: 27px}
         <li><h5><a href="https://www.air-aware.com">Home</a></h5></li>
       </ul>
       <br>
+</span>
      <img src="{% static 'images/map.png' %}" style='margin-left: 2em; width: 70%; height: 70%' />
  <br>
     <br>
+<div style="margin-left: 27px">
       <ui><h5>{{ date|date:"jS M P" }}</h5></ui>
-      <ui><h5>Current max PM10:</a></h5></ui>
-      <ui><h5>{{ pm10_max }} ug/m3</h5></ui>
+      <ui><h5>Current max PM10:</h5></ui>
+          <h5>{{ pm10_max }} ug/m3
+          {% if pm10_max <= 49 %}
+             <span style="color:green; float:right; margin-right:20px">Low</span>
+          {% endif %}
+          {% if pm10_max >= 50 and pm10_max <= 83 %}
+             <span style="color:orange; float:right; margin-right:20px">Mod</span>
+          {% endif %}
+          {% if pm10_max >= 84 %}
+             <span style="color:red; float:right; margin-right:20px">High</span></h5>
+          {% endif %}
         {% for site in pm10_sites %}
-      <ui><h5><a href="{% url 'site_detail' site %}">{{ site_names|get_item:site }}</a></h5></ui>
+      <h5><a href="{% url 'site_detail' site %}">{{ site_names|get_item:site }}</a></h5></ui>
         {% endfor %}
-      <ui><h5>Current max NO2:</a></h5></ui>
+    <br>
+      <ui><h5>Current max NO2:</h5></ui>
       <ui><h5>{{ no2_max }} ug/m3</h5></ui>
+          {% if no2_max <= 199 %}
+             <span style="color:green; float:right; margin-right:20px">Low</span>
+          {% endif %}
+          {% if no2_max >= 200 and no2_max <= 399 %}
+             <span style="color:orange; float:right; margin-right:20px">Mod</span>
+          {% endif %}
+          {% if no2_max >= 400 %}
+             <span style="color:red; float:right; margin-right:20px">High</span></h5>
+          {% endif %}
         {% for site in no2_sites %}
       <ui><h5><a href="{% url 'site_detail' site %}">{{ site_names|get_item:site }}</a></h5></ui>
         {% endfor %}
+    </div>
 {% endblock %}
 {% block content %}
  <div class="col-sm-5 ">
