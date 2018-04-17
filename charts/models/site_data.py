@@ -1,5 +1,3 @@
-from charts.models import Site
-
 
 def get_info(site):
     site_code = site_codes.get(site)
@@ -701,10 +699,3 @@ regions = {
     'York Bootham': 'yorkshire',
     'York Fishergate': 'yorkshire'
 }
-
-
-def populate():
-    """ create and save objects using the data in data.site_info.py """
-    for site in site_list:
-        site_entry = Site.objects.create(**get_info(site))
-        site_entry.save()
