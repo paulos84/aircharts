@@ -13,11 +13,11 @@ class SiteDetailView(generic.DetailView):
 
     @staticmethod
     def get_data(site_code, days=2):
-        data = requests.get('http://ukair.pauljd.me/site-data/{}/{}/'.format(site_code, days)).json()
-        no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data]
-        pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data]
-        pm10 = [float(i['pm10']) if i['pm10'].isdigit() else '' for i in data]
-        hours = [i['time'][11:16] for i in data]
+        data = requests.get('http://142.93.248.45/data/{}/{}/'.format(site_code, days)).json()
+        no2 = [float(i['no2']) if i['no2'].isdigit() else '' for i in data['aq data'][0]]
+        pm25 = [float(i['pm25']) if i['pm25'].isdigit() else '' for i in data['aq data'][0]]
+        pm10 = [float(i['pm10']) if i['pm10'].isdigit() else '' for i in data['aq data'][0]]
+        hours = [i['time'][11:16] for i in data['aq data'][0]]
         return dict(no2=no2[::-1], pm25=pm25[::-1], pm10=pm10[::-1], times=hours[::-1])
 
     def get_context_data(self, **kwargs):
