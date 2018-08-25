@@ -25,13 +25,19 @@ h3   {color: #708090;}
         <img src="{% static 'images/map_header.png' %}" style='width: 100%; object-fit: contain' />
     <div class="row">
       <div class="col-sm-2">
-      <br>
-      <ul class="sidebar-nav">
-          <li><h5><a href="{% url 'sites' %}">All Site Locations</a></h5></li>
-          <li><h5><a href="{% url 'map' %}">All Sites Map</a></h5></li>
-        <li><h5><a href="https://www.air-aware.com">Home</a></h5></li>
-      </ul>
-      <br>
+      <span>
+      <div style=" position:relative; margin-top: 26px; margin-bottom: 26px; ">
+        <ul class="sidebar-nav">
+          <a href="{% url 'sites' %}" type="button" class="btn btn-default" style="width: 110px; background-color: #fbfcfb; ">All sites</a>
+        </ul>
+        <ul class="sidebar-nav">
+          <a href="{% url 'map' %}" type="button" class="btn btn-default" style="width: 110px; background-color: #fbfcfb; ">Sites map</a>
+        </ul>
+        <ul class="sidebar-nav">
+          <a href="https://www.air-aware.com" type="button" class="btn btn-default" style="width: 110px; background-color: #fbfcfb; ">Air Aware</a>
+        </ul>
+      </div>
+      </span>
      <img src="{% static 'images/station.png' %}" style='margin-left: 2em; width: 80%; height: 80%' />
       </div>
       <div class="col-sm-10 ">

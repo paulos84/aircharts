@@ -53,7 +53,7 @@ class SiteDetailDaysView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(SiteDetailDaysView, self).get_context_data(**kwargs)  # get the default context data
-        chart_data = SiteDetailView.get_data(self.kwargs['site_code'], int(self.kwargs['days']))
+        chart_data = SiteDetailView.get_data(self.kwargs['site_code'], days=int(self.kwargs['days']))
         context['chartID'] = 'chart_ID'
         context['chart'] = {"renderTo": 'chart_ID', "type": 'line', "height": 522.5, "width": 784}
         context['series'] = [{"name": 'PM10', "data": chart_data['pm10']},
@@ -70,4 +70,3 @@ class SiteDetailDaysView(generic.DetailView):
         context['date'] = datetime.now(local_tz)
         context['slug'] = self.kwargs['site_code']
         return context
-

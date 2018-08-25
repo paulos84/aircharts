@@ -6,7 +6,7 @@ SECRET_KEY = 'oh8jymi8bg1k3qg-d_(*a)(d5@=vgg_srpridat#xv#(-)afdf'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '178.62.201.229']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -88,5 +88,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 INTERNAL_IPS = '127.0.0.1'

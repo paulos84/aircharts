@@ -2,14 +2,18 @@
 {% load static %}
 {% load template_filters %}
 {% block sidebar %}
-<span style="margin-left: 27px">
-      <br>
-      <ul class="sidebar-nav">
-          <li><h5><a href="{% url 'sites' %}">All Site Locations</a></h5></li>
-          <li><h5><a href="{% url 'map' %}">All Sites Map</a></h5></li>
-        <li><h5><a href="https://www.air-aware.com">Home</a></h5></li>
-      </ul>
-      <br>
+<span>
+  <div style=" position:relative; margin-top: 26px; margin-bottom: 26px; ">
+    <ul class="sidebar-nav">
+      <a href="{% url 'sites' %}" type="button" class="btn btn-default" style="width: 110px; background-color: #fbfcfb; ">All sites</a>
+    </ul>
+    <ul class="sidebar-nav">
+      <a href="{% url 'map' %}" type="button" class="btn btn-default" style="width: 110px; background-color: #fbfcfb; ">Sites map</a>
+    </ul>
+    <ul class="sidebar-nav">
+      <a href="https://www.air-aware.com" type="button" class="btn btn-default" style="width: 110px; background-color: #fbfcfb; ">Air Aware</a>
+    </ul>
+  </div>
 </span>
      <img src="{% static 'images/map.png' %}" style='margin-left: 2em; width: 70%; height: 70%' />
  <br>
@@ -52,7 +56,7 @@
 {% regroup object_list_lon by region as regions_list %}
 <ul>
 {% for region in regions_list %}
-    <li>{{ region.grouper }}
+    <li style="list-style: none; margin-top:8px; margin-bottom: 6px;">{{ region.grouper }}
     <ul>
         {% for item in region.list %}
           <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
@@ -78,7 +82,7 @@
 <ul>
 {% regroup object_list2 by region as regions_list %}
 {% for region in regions_list %}
-    <li>{{ region.grouper }}
+    <li style="list-style: none; margin-top:8px; margin-bottom: 6px;">{{ region.grouper }}
     <ul>
         {% for item in region.list %}
           <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
