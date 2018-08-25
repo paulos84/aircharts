@@ -13,7 +13,6 @@ class SiteListView(generic.ListView):
 
     @staticmethod
     def latest_hour_max():
-        #try/except:
         data = requests.get('http://ukair.pauljd.me/current-data/').json()
         p_max = max(float(a['pm10']) if a['pm10'].isdigit() else 0 for a in data)
         p_codes = [i['site_code'] for i in data if i['pm10'] == str(round(p_max))]
@@ -31,6 +30,6 @@ class SiteListView(generic.ListView):
             'object_list2': Site.objects.non_london_set2,
             'date': datetime.now(local_tz),
             'site_names': site_names,
-           # **self.latest_hour_max(),
+           **self.latest_hour_max(),
                     })
         return context

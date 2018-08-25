@@ -4,9 +4,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'oh8jymi8bg1k3qg-d_(*a)(d5@=vgg_srpridat#xv#(-)afdf'
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['178.62.201.229']
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,7 +16,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'charts.apps.ChartsConfig',
-    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -27,7 +26,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'aircharts.urls'
